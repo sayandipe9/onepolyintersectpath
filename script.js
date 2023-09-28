@@ -23,47 +23,107 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+    // let polygonPoints = [];
+    // let reqpolygon = null;
+    // let removePolygon = null;
+    // let removePolygon_points=[];
+    // let markers = [];
+
+    // // Event handler for the map click
+    // map.on('click', function (e) {
+    //     const lat = e.latlng.lat;
+    //     const lng = e.latlng.lng;
+    //     console.log(lat, lng);
+    //     polygonPoints.push([lat, lng]);
+
+    //     // Add a marker at the clicked location (optional)
+    //     const marker=L.marker([lat, lng]).addTo(map);
+    //     markers.push(marker);
+    // });
+
+    // // Event handler for the "Create Polygon" button click
+    // document.getElementById('createPolygonButton').addEventListener('click', function () {
+    //     if (polygonPoints.length >= 3) {
+    //         // Convert your points to Leaflet LatLng objects
+    //         const latLngPoints = polygonPoints.map(point => L.latLng(point[0], point[1]));
+           
+    //         // Create a Leaflet polygon
+    //         const polygon = L.polygon(latLngPoints);
+    //         reqpolygon = polygon;
+    //         console.log("polygon");
+    //         console.log(polygon);
+    //         removePolygon = polygon;
+    //         // Add the polygon to the map
+    //         polygon.addTo(map);
+
+    //         // Clear the polygonPoints array
+    //         removePolygon_points=polygonPoints;
+           
+    //         polygonPoints = [];
+    //     } else {
+    //         alert('Please select at least three points to create a polygon.');
+    //     }
+    // });
+
     let polygonPoints = [];
     let reqpolygon = null;
     let removePolygon = null;
-    let removePolygon_points=[];
+    let removePolygon_points = [];
     let markers = [];
-
+    
+    // Create a temporary polygon layer
+    let tempPolygon = L.polygon([], { dashArray: '5, 5', color: 'black' });
+    
     // Event handler for the map click
     map.on('click', function (e) {
         const lat = e.latlng.lat;
         const lng = e.latlng.lng;
         console.log(lat, lng);
+    
+        if (polygonPoints.length === 0) {
+            // Add the first point only once
+            polygonPoints.push([lat, lng]);
+        }
+    
         polygonPoints.push([lat, lng]);
-
+    
+        // Update the temporary polygon layer with the latest set of points
+        tempPolygon.setLatLngs(polygonPoints);
+    
+        // Add the temporary polygon to the map
+        tempPolygon.addTo(map);
+    
         // Add a marker at the clicked location (optional)
-        const marker=L.marker([lat, lng]).addTo(map);
+        const marker = L.marker([lat, lng]).addTo(map);
         markers.push(marker);
     });
-
+    
     // Event handler for the "Create Polygon" button click
     document.getElementById('createPolygonButton').addEventListener('click', function () {
-        if (polygonPoints.length >= 3) {
+        if (polygonPoints.length >= 3) { // Check for at least three points to create a polygon
             // Convert your points to Leaflet LatLng objects
             const latLngPoints = polygonPoints.map(point => L.latLng(point[0], point[1]));
-           
+    
             // Create a Leaflet polygon
             const polygon = L.polygon(latLngPoints);
             reqpolygon = polygon;
             console.log("polygon");
             console.log(polygon);
             removePolygon = polygon;
+    
             // Add the polygon to the map
             polygon.addTo(map);
-
-            // Clear the polygonPoints array
-            removePolygon_points=polygonPoints;
-           
+    
+            // Clear the polygonPoints array and remove the temporary polygon layer
+            removePolygon_points = polygonPoints;
             polygonPoints = [];
+            map.removeLayer(tempPolygon);
         } else {
             alert('Please select at least three points to create a polygon.');
         }
     });
+    
+    
 
     document.getElementById('removePolygonButton').addEventListener('click', function () {
         if (reqpolygon) {
