@@ -6,109 +6,128 @@
     <title>Leaflet Routing Example</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="styles.css"> <!-- Link to an external CSS file for better organization -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.3.0/turf.min.js"></script>
 </head>
 <body>
-    <!-- Your form goes here -->
-    <form id="routing-form">
-        <label for="start">Start Point:</label>
-        <input type="text" id="start" />
-        <br />
-        <label for="destination">Destination:</label>
-        <input type="text" id="destination" />
-        <br />
-        <button type="submit">Get Directions</button>
-    </form>
-    
-    <!-- Map container -->
-    <div id="map" style="height: 500px;"></div>
-<div style="display: flex;justify-content: center;">
-    <button id="createPolygonButton">Create Polygon</button>
-    <button id="removePolygonButton">Remove Polygon</button>
-</div>
-   
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.3.0/turf.min.js"></script>
+    <div class="container">
+        <form id="routing-form" style="
+        margin-bottom: 30px;
+    ">
+            <h1    style="margin-bottom: 4%;">Get Directions</h1>
+            <div class="form-group ">
+                <label for="start">Start Point:</label>
+                <input type="text" id="start" placeholder="Enter starting location" />
+            </div>
+            <div class="form-group">
+                <label for="destination">Destination:</label>
+                <input type="text" id="destination" placeholder="Enter destination" />
+            </div>
+            <button type="submit" style="    margin-right: 76%;     background: #69cd69;  ">Get Directions</button>
+        </form>
+        <div id="map-container">
+            <div id="map"></div>
+        </div>
+        <div class="button-container">
+            <button id="createPolygonButton" style="background-color: black;">Create Polygon</button>
+            <button id="removePolygonButton" style="    background: #ea0f0f;;">Remove Polygon</button>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
-
-<style>
-    /* Style the form container */
-    #routing-form {
-        width: 300px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f2f2f2;
-        border-radius: 5px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Style the labels */
-    label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
-
-    /* Style the text inputs */
-    input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        font-size: 16px;
-    }
-
-    /* Style the submit button */
-    button[type="submit"] {
-        background-color: #007BFF;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    /* Change button color on hover */
-    button[type="submit"]:hover {
-        background-color: #0056b3;
-    }
-
-      
-    /* Style the "Create Polygon" button */
-    #createPolygonButton {
-        background-color: #4CAF50;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 10px;
-    }
-
-    /* Change button color on hover */
-    #createPolygonButton:hover {
-        background-color: #45a049;
-    }
-
-    #removePolygonButton {
-        background-color: #FF0000;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 3px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 10px;
-    }
-
-    /* Change button color on hover */
-    #removePolygonButton:hover {
-        background-color: #b30000;
-    }
-</style>
 </html>
+<style>
+    /* Reset some default styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Apply a background color to the body */
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+/* Style the container */
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Style the form */
+form {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="text"] {
+    width: 96.5%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+}
+
+button[type="submit"], #createPolygonButton, #removePolygonButton {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover, #createPolygonButton:hover, #removePolygonButton:hover {
+    background-color: #0056b3;
+}
+
+/* Style the map container */
+#map-container {
+    margin-bottom: 20px;
+}
+
+#map {
+    height: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Style the button container */
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Style the "Create Polygon" and "Remove Polygon" buttons */
+#createPolygonButton, #removePolygonButton {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+/* Add more styles as needed */
+
+
+</style>
